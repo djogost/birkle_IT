@@ -1,0 +1,160 @@
+openapi: 3.0.2
+
+info:
+  title: Vehicle Management Portal
+
+  version: 0.9.0
+
+paths:
+
+  /vehicle:
+    get:
+      summary: Return a collection of vehicles
+      operationId: getVehicles
+      responses:
+        200:
+          $ref: '#/components/responses/GetAllVehiclesResponse'
+        400:
+          $ref: '#/components/responses/GenericNoContentResponse'
+      tags:
+        - vehicle
+    post:
+      summary: Create a new record of vihicle
+      operationId: addVehicle
+      requestBody:
+        $ref: '#/components/requestBodies/CreateVehicleBody'
+      responses:
+        201:
+          $ref: '#/components/responses/GenericNoContentResponse'
+        400:
+          $ref: '#/components/responses/GenericNoContentResponse'
+      tags:
+        - vehicle
+  /vehicle/{id}:
+    get:
+      summary: Return a particular vehicle
+      operationId: getVehicle
+      responses:
+        200:
+          $ref: '#/components/responses/GetVehicleResponse'
+        400:
+          $ref: '#/components/responses/GenericNoContentResponse'
+      tags:
+        - vehicle
+    put:
+      summary: Update a particular vehicle
+      operationId: putBrands
+      requestBody:
+        $ref: '#/components/requestBodies/CreateVehicleBody'
+      responses:
+        201:
+          $ref: '#/components/responses/GenericNoContentResponse'
+        400:
+          $ref: '#/components/responses/GenericNoContentResponse'
+      tags:
+        - vehicle
+    delete:
+      summary: Delete a particular vehicle
+      operationId: deleteVehicle
+      responses:
+        202:
+          $ref: '#/components/responses/GenericNoContentResponse'
+        400:
+          $ref: '#/components/responses/GenericNoContentResponse'
+      tags:
+        - vehicle
+    parameters:
+      - $ref: '#/components/parameters/Id'
+
+components:
+  requestBodies:
+    CreateVehicleBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VehicleDTO'
+  parameters:
+    Id:
+      description: ID of a vehicle
+      in: path
+      name: id
+      required: true
+      schema:
+        $ref: '#/components/schemas/Id'
+  schemas:
+    VehicleDTO:
+      type: object
+      properties:
+        model:
+          type: string
+          example: BMW 4
+        vehicleType:
+          type: string
+          example: Sports Car
+        plateCountrey:
+          type: string
+          example: D
+        plateNumber:
+          type: string
+          example: RA KL 1234
+        vin:
+          type: string
+          example: YV1SW61R021197119
+        manifacturedCountry:
+          type: string
+          example: 3166-2
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: string
+          example: bfc2c47e-7d6e-4608-ac65-28c0d3e354b7
+        model:
+          type: string
+          example: BMW 4
+        vehicleType:
+          type: string
+          example: Sports Car
+        plateCountrey:
+          type: string
+          example: D
+        plateNumber:
+          type: string
+          example: RA KL 1234
+        vin:
+          type: string
+          example: YV1SW61R021197119
+        creationDate:
+          type: string
+          format: 'date-time'
+        manifacturedCountry:
+          type: string
+          example: 3166-2
+    Id:
+      description: Internal ID of a vehicle
+      type: string
+      readOnly: true
+    VehiclesResponseCollection:
+      type: object
+      properties:
+        vehicles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'
+  responses:
+    GenericNoContentResponse:
+      description: No content
+      content: {}
+    GetAllVehiclesResponse:
+      description: Show all vehicles
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VehiclesResponseCollection'
+    GetVehicleResponse:
+      description: Particular vehicle
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Vehicle'
+
